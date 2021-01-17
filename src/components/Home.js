@@ -48,7 +48,8 @@ export default class Home extends Component {
     switch (idExists) {
       case true:
         if (matchingAdmin.password === this.state.adminPassword) {
-          console.log('id and password matches!');
+          // redirect to departments page
+          this.props.history.push('/departments', matchingAdmin);
         } else {
           console.log('id matches but password incorrect');
         }
