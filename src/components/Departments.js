@@ -46,6 +46,11 @@ export default class Departments extends Component {
     window.location = '/';
   }
 
+  // got to student directory page
+  icsBtnClicked = () => {
+    this.props.history.push('/student-directory', this.state.admin);
+  }
+
   render() {
     // if the component is in its first mount, don't display contents
     if (this.state.firstMount) {
@@ -57,7 +62,7 @@ export default class Departments extends Component {
           <button>Departments</button>
           <button>Register</button>
           <h1>Departments</h1>
-          <button>ICS</button><br />
+          <button onClick={this.icsBtnClicked}>ICS</button><br />
           <button onClick={this.backBtnClicked}>Sign Out</button>
         </div>
       )
