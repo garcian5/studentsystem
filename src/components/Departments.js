@@ -54,7 +54,10 @@ export default class Departments extends Component {
       // if access allowed and not first mount, display contents
       return (
         <div>
-          <h1>Hello We're in Departments</h1>
+          <button>Departments</button>
+          <button>Register</button>
+          <h1>Departments</h1>
+          <button>ICS</button><br />
           <button onClick={this.backBtnClicked}>Sign Out</button>
         </div>
       )
