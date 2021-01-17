@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Admin from '../data/admins';
+import Admins from '../data/admins';
 
 export default class Home extends Component {
   /**
@@ -8,14 +8,19 @@ export default class Home extends Component {
   constructor() {
     super();
     this.state = {
-      
+      admins: Admins
     }
   }
+
+  logIn = () => {
+    console.log('login clicked!')
+  }
+
   render() {
     //console.log(Admin.admin1.id); // this is how we get id of admin1
     return (
       <div>
-        <form>
+        <form onSubmit={this.logIn}>
           <label>Admin ID Number:
             <input type="text" name=""/>
           </label><br />
