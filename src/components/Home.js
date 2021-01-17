@@ -10,7 +10,9 @@ export default class Home extends Component {
     this.state = {
       admins: Admins,
       adminID: '',
-      adminPassword: ''
+      adminPassword: '',
+
+      errorMsg: ''
     }
   }
 
@@ -51,11 +53,17 @@ export default class Home extends Component {
           // redirect to departments page
           this.props.history.push('/departments', matchingAdmin);
         } else {
-          console.log('id matches but password incorrect');
+          // display error to page
+          this.setState({
+            errorMsg: 'Id matches but password incorrect.'
+          })
         }
         break;
       default:
-        console.log('id does not exist!')
+        // display error to page
+        this.setState({
+          errorMsg: 'Admin does not exist.'
+        })
     }
   }
 
@@ -82,6 +90,11 @@ export default class Home extends Component {
           </label><br />
           <button>Log In</button>
         </form>
+        {
+          this.state.errorMsg !== '' ?
+          <p style={{color: 'red'}}>{this.state.errorMsg}</p>
+          : null
+        }
       </div>
     )
   }
