@@ -1,4 +1,5 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
+import Admin from '../data/admins';
 
 export default class Home extends Component {
   /**
@@ -11,6 +12,7 @@ export default class Home extends Component {
     }
   }
   render() {
+    //console.log(Admin.admin1.id); // this is how we get id of admin1
     return (
       <div>
         <form>
