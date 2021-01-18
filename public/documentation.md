@@ -37,6 +37,24 @@ Displays Departments page.
 - backBtnClicked: returns to home page.
 
 ***
+
+### StudentDirectory.js
+Displays List of Students from Department.
+### Functions:
+- backBtnClicked: goes back to previous page.
+- toStudentIfoClicked: redirects to student info page.
+- render: renders list of students.
+
+***
+
+### StudentInfo.js
+Displays Student Information.
+### Lifecycles:
+- componentDidMount: stores student info if access is allowed
+### Functions:
+render: renders student info.
+
+***
 <br/>
 
 ## Additional Files:
@@ -44,3 +62,16 @@ Displays Departments page.
 In memory "database" of this system.<br/>
 This contains name, id and password of admins.
 Could serve as a test file (since this project does not contain actual database).
+
+### students.js
+Database for student info.
+### subjects.js
+Subjects info including name and reference to instructor database.
+### schedules.js
+Schedules info with a list of id references from subject schedules.
+### instructors.js
+Instructor info.
+### subject_schedules.js
+Subject schedules info including time & day of class and reference to subject database.
+### grades.js
+Grades info including reference to student id and subject id and prelim, midterm and final grades.
