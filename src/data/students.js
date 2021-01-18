@@ -11,8 +11,7 @@ const students = [
     course: 'Bachelor of Science Major in Aviation Information System',
     yearsection: '3rd Year - Alpha',
     // this section will be references to different tables that this has a relationship with
-    subject_schedule_id: 'default_sched_97438',
-    grades_id: 'empanso_1_id'
+    subject_schedule_id: 'default_sched_97438'
   },
   {
     id: 2,
@@ -26,8 +25,7 @@ const students = [
     course: 'Bachelor of Science Major in Aviation Information System',
     yearsection: '3rd Year - Alpha',
     // this section will be references to different tables that this has a relationship with
-    subject_schedule_id: 'default_sched_97438',
-    grades_id: 'lore_2_id'
+    subject_schedule_id: 'default_sched_97438'
   },
   {
     id: 3,
@@ -41,8 +39,7 @@ const students = [
     course: 'Bachelor of Science Major in Aviation Information System',
     yearsection: '3rd Year - Alpha',
     // this section will be references to different tables that this has a relationship with
-    subject_schedule_id: 'default_sched_97438',
-    grades_id: 'perez_3_id'
+    subject_schedule_id: 'default_sched_97438'
   }
 ]
 
