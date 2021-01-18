@@ -1,4 +1,4 @@
-const subject_schedule = [
+const subject_schedules = [
   {
     id: 'GEC8_sched_1',
     time: {from: '8:00 am', to: '9:32 am'},
@@ -22,4 +22,4 @@ const subject_schedule = [
   },
 ]
 
-export default subject_schedule;
+export default subject_schedules;
