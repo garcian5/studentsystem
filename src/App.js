@@ -5,6 +5,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Home from './components/Home';
 import Departments from './components/Departments';
 import StudentDirectory from './components/StudentDirectory';
+import StudentInfo from './components/StudentInfo';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route exact path='/' component={Home} />
           <Route exact path='/departments' component={Departments} />
           <Route exact path='/student-directory' component={StudentDirectory} />
+          <Route exact path='/student-info' component={StudentInfo} />
         </Switch>
       </Router>
     </div>

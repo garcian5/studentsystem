@@ -15,11 +15,18 @@ export default class StudentDirectory extends Component {
   backBtnClicked = () => {
     this.props.history.push('/departments', this.props.history.location.state);
   }
+
+  toStudentIfoClicked = (student_id) => {
+    this.props.history.push('/student-info', student_id);
+  }
+
   render() {
     // iterate through the list of students and display their names in the list.
     const students_lst = this.state.students.map(student => (
       <ul key={student.id}>
-        <li>{student.lastname}, {student.firstname} {student.middlename}</li>
+        <li>
+          <button onClick={() => this.toStudentIfoClicked(student.id)}>{student.lastname}, {student.firstname} {student.middlename}</button>
+        </li>
       </ul>
     ))
     return (
