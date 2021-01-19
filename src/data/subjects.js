@@ -15,3 +15,5 @@ const subjects = [
     instructor_id: 'prof_Caro'
   },
 ]
+
+export default subjects;

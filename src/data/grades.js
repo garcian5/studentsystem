@@ -75,3 +75,5 @@ const grades = [
     final: 1.0
   },
 ]
+
+export default grades;
