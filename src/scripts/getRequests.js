@@ -40,6 +40,7 @@ export const getSchedule = (student) => {
     }
     complete_schedule.push(temp_sched);
   }
+  return complete_schedule;
 }
 
 export const getGrades = (student) => {
@@ -55,4 +56,5 @@ export const getGrades = (student) => {
     }
     grades_lst.push(temp_grade_info);
   }
+  return grades_lst;
 }
