@@ -78,7 +78,6 @@ export default class StudentInfo extends Component {
         }
         grades_lst.push(temp_grade_info);
       }
-      console.log(grades_lst);
       
       this.setState({
         accessAllowed: true,
@@ -92,7 +91,8 @@ export default class StudentInfo extends Component {
 
   // go back to student directory page
   backBtnClicked = () => {
-    this.props.history.push('/student-directory');
+    // this.props.history.location.state = student id
+    this.props.history.push('/student-directory', this.props.history.location.state);
   }
 
   render() {
