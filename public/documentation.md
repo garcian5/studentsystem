@@ -58,6 +58,10 @@ render: renders student info.
 <br/>
 
 ## Additional Files:
+<br/>
+<br/>
+
+## Data
 ### admins.js
 In memory "database" of this system.<br/>
 This contains name, id and password of admins.
@@ -75,3 +79,12 @@ Instructor info.
 Subject schedules info including time & day of class and reference to subject database.
 ### grades.js
 Grades info including reference to student id and subject id and prelim, midterm and final grades.
+
+<br/>
+
+***
+## Scripts
+### getRequests.js
+Handles all get requests made by user. Functions include:
+  - getSchedule
+  - getGrades
