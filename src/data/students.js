@@ -1,6 +1,6 @@
 const students = [
   {
-    id: 1,
+    id: '1',
     lastname: 'Empanso', 
     firstname: 'Jessa Lee', 
     middlename: 'L.',
@@ -14,7 +14,7 @@ const students = [
     subject_schedule_id: 'default_sched_97438'
   },
   {
-    id: 2,
+    id: '2',
     lastname: 'Lore', 
     firstname: 'Christy Jane', 
     middlename: 'U.',
@@ -28,7 +28,7 @@ const students = [
     subject_schedule_id: 'default_sched_97438'
   },
   {
-    id: 3,
+    id: '3',
     lastname: 'Perez', 
     firstname: 'Myka Vallery', 
     middlename: 'M.',
