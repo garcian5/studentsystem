@@ -47,8 +47,13 @@ export default class Departments extends Component {
   }
 
   // got to student directory page
-  icsBtnClicked = () => {
+  isBtnClicked = () => {
     this.props.history.push('/student-directory', this.state.admin);
+  }
+
+  // go to register page
+  registerClicked = () => {
+    this.props.history.push('/student-register', this.state.admin);
   }
 
   render() {
@@ -62,7 +67,7 @@ export default class Departments extends Component {
           <button>Departments</button>
           <button>Register</button>
           <h1>Departments</h1>
-          <button onClick={this.icsBtnClicked}>ICS</button><br />
+          <button onClick={this.isBtnClicked}>ICS</button><br />
           <button onClick={this.backBtnClicked}>Sign Out</button>
         </div>
       )
