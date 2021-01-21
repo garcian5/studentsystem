@@ -65,7 +65,7 @@ export default class Departments extends Component {
       return (
         <div>
           <button>Departments</button>
-          <button>Register</button>
+          <button onClick={this.registerClicked}>Register</button>
           <h1>Departments</h1>
           <button onClick={this.isBtnClicked}>ICS</button><br />
           <button onClick={this.backBtnClicked}>Sign Out</button>
