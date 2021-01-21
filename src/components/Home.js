@@ -51,7 +51,6 @@ export default class Home extends Component {
       case true:
         if (matchingAdmin.password === this.state.adminPassword) {
           matchingAdmin.loginToken = '123ToKen456To789LogIn';
-          console.log(matchingAdmin)
           // redirect to departments page
           this.props.history.push('/departments', matchingAdmin);
         } else {
