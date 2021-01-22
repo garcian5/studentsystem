@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {getSubjects, getSubject_Schedules, getNewRegisteredSched, getRestoredSubject, getRestoredSched} from '../scripts/getRequests';
+import {getSubjects, getSubject_Schedules, getNewRegisteredSched, getRestoredSubject, getRestoredSched, getStudents} from '../scripts/getRequests';
 import studentsdata from '../data/students';
 import schedules from '../data/schedules';
 
@@ -24,12 +24,35 @@ export default class RegisterStudent extends Component {
       subject_id: '',
       sub_sched_id: '',
       scheds: [],
-      sched_to_render: []
+      sched_to_render: [],
+
+      noSched: false,
+      students_lst: getStudents(),
+      duplicateId: false
     }
   }
 
   handleInputChange = (event) => {
     const {name, value} = event.target;
+    // checks if id is not a duplicate in the students database
+    let checkExistingId = [];
+    if (name === 'id') {
+      checkExistingId = this.state.students_lst.filter(student => {
+        return value === student.id
+      })
+    }
+    // if id exists, don't let them enter
+    if (checkExistingId.length > 0) {
+      this.setState({
+        [name]: value,
+        duplicateId: true
+      })
+    } else {
+      this.setState({
+        [name]: value,
+        duplicateId: false
+      })
+    }
     this.setState({
       [name]: value
     })
@@ -37,6 +60,15 @@ export default class RegisterStudent extends Component {
 
   registerStudent = (event) => {
     event.preventDefault(); // prevents default refresh
+    console.log(this.state.scheds)
+    // if user did not enter a schedule, do not let them register
+    if (this.state.scheds.length <= 0) {
+      this.setState({ noSched: true })
+      return
+    }  
+    if (this.duplicateId) {
+      return
+    }
 
     // create a new object for new student schedule to post onto the schedules 'database'
     const newStudentSched = {
@@ -61,6 +93,7 @@ export default class RegisterStudent extends Component {
       subject_schedule_id: newStudentSched.id
     }    
     studentsdata.push(addStudent);    
+    this.props.history.push('/student-directory', this.props.history.location.state);
   }
 
   addToSched = () => {
@@ -119,6 +152,7 @@ export default class RegisterStudent extends Component {
             value={subsched.id}
             checked={this.state.sub_sched_id === subsched.id}
             onChange={this.handleInputChange}
+            required
           />
           <label>{subsched.time.from} - {subsched.time.to}</label>
         </div>
@@ -145,6 +179,7 @@ export default class RegisterStudent extends Component {
             name = "id" 
             value = {this.state.id}
             onChange = {this.handleInputChange}
+            required
           /> <br />
           <label>First Name: </label>
           <input 
@@ -152,6 +187,7 @@ export default class RegisterStudent extends Component {
             name = "firstname" 
             value = {this.state.firstname}
             onChange = {this.handleInputChange}
+            required
           />
           <label>Last Name: </label>
           <input 
@@ -159,6 +195,7 @@ export default class RegisterStudent extends Component {
             name = "lastname" 
             value = {this.state.lastname}
             onChange = {this.handleInputChange}
+            required
           /> <br />
           <label>Middle Name: </label>
           <input 
@@ -166,6 +203,7 @@ export default class RegisterStudent extends Component {
             name = "middlename" 
             value = {this.state.middlename}
             onChange = {this.handleInputChange}
+            required
           /> <br />
           <label>Age: </label>
           <input 
@@ -173,6 +211,7 @@ export default class RegisterStudent extends Component {
             name = "age" 
             value = {this.state.age}
             onChange = {this.handleInputChange}
+            required
           /> <br />
           <label>Date of Birth: </label>
           <input 
@@ -180,6 +219,7 @@ export default class RegisterStudent extends Component {
             name = "dob" 
             value = {this.state.dob}
             onChange = {this.handleInputChange}
+            required
           /> <br />
           <label>Address: </label>
           <input 
@@ -187,6 +227,7 @@ export default class RegisterStudent extends Component {
             name = "address" 
             value = {this.state.address}
             onChange = {this.handleInputChange}
+            required
           /> <br />
           <label>Contact Number: </label>
           <input 
@@ -194,6 +235,7 @@ export default class RegisterStudent extends Component {
             name = "contact_num" 
             value = {this.state.contact_num}
             onChange = {this.handleInputChange}
+            required
           /> <br />
           <label>Course: </label>
           <input 
@@ -201,6 +243,7 @@ export default class RegisterStudent extends Component {
             name = "course" 
             value = {this.state.course}
             onChange = {this.handleInputChange}
+            required
           /> <br />
           <label>Year & Section: </label>
           <input 
@@ -208,6 +251,7 @@ export default class RegisterStudent extends Component {
             name = "year_sec" 
             value = {this.state.year_sec}
             onChange = {this.handleInputChange}
+            required
           /> <br />
 
           <label>Department: </label>
@@ -221,6 +265,7 @@ export default class RegisterStudent extends Component {
             name="subject_id"
             value={this.state.subject_id}
             onChange={this.handleInputChange}
+            required
           >
             <option>Please Select a Subject</option>
             {// lists out all options from user list
@@ -258,11 +303,13 @@ export default class RegisterStudent extends Component {
             : null
           }
 
-          <br />
-
           <button type='button' onClick={this.addToSched}>Add to Schedule</button><br />
 
-          <button>Submit</button>
+          <br/>
+          {this.state.noSched ? <p style={{color: 'red'}}>Please Enter a Schedule!</p> : null}
+          {this.state.duplicateId ? <p style={{color: 'red'}}>Please Enter a Different Id!</p> : null}
+
+          <button>Register Student</button>
         </form>
       </div>
     )

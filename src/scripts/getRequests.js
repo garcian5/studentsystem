@@ -4,6 +4,7 @@ import schedule from '../data/schedules';
 import subjects_sched from '../data/subject_schedules';
 import instructors from '../data/instructors';
 import grades from '../data/grades';
+import students from '../data/students';
 
 export const getSchedule = (student) => {
   // SCHEDULE
@@ -65,6 +66,10 @@ export const getSubjects = () => {
 
 export const getSubject_Schedules = () => {
   return subjects_sched;
+}
+
+export const getStudents = () => {
+  return students;
 }
 
 // for register
