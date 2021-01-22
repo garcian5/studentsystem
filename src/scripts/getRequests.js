@@ -66,3 +66,65 @@ export const getSubjects = () => {
 export const getSubject_Schedules = () => {
   return subjects_sched;
 }
+
+// for register
+export const getNewRegisteredSched = (list_scheds) => {
+  const newSched = [];
+  // go through the list of subject_schedules
+  for (const subsched_id of list_scheds) {
+    for (const subsched of subjects_sched) {
+      if (subsched_id === subsched.id) {
+        newSched.push(subsched);
+      }
+    }
+  }
+
+  // get subject name from newSched
+  const complete_schedule = [];
+  let temp_sched = {};
+  // iterate through subject schedules to find subject name from subjects table, as well, find the instructors for each subject and store matching ones onto complete schedule
+  for (const sub of newSched) {
+    temp_sched = sub;
+    for (const subject of subjects) {
+      if (subject.id === sub.subject_id) {
+        temp_sched.subject_name = subject.name;
+        temp_sched.instructor_id = subject.instructor_id;
+      }          
+    }
+    for (const inst of instructors) {
+      if (inst.id === temp_sched.instructor_id) {
+        temp_sched.instructor_name = inst.name;
+      }
+    }
+    complete_schedule.push(temp_sched);
+  }
+  return complete_schedule;
+}
+
+export const getRestoredSubject = (sched_id) => {
+  let sub_id_tocompare = '';
+  for (const subsched of subjects_sched) {
+    if (sched_id === subsched.id) {
+      sub_id_tocompare = subsched.subject_id;
+    }
+  }
+  let restoredSub = {}
+  for (const sub of subjects) { 
+    if (sub.id === sub_id_tocompare) {
+      restoredSub = sub;
+    }
+  }
+  console.log(restoredSub)
+  return restoredSub;
+}
+
+export const getRestoredSched = (sched_id) => {
+  let restoredSched = {};
+  for (const subsched of subjects_sched) {
+    if (sched_id === subsched.id) {
+      restoredSched = subsched;
+    }
+  }
+  
+  return restoredSched;
+}

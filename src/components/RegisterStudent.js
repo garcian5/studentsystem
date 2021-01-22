@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import {getSubjects, getSubject_Schedules} from '../scripts/getRequests';
+import {getSubjects, getSubject_Schedules, getNewRegisteredSched, getRestoredSubject, getRestoredSched} from '../scripts/getRequests';
 import studentsdata from '../data/students';
 import schedules from '../data/schedules';
 
@@ -23,7 +23,8 @@ export default class RegisterStudent extends Component {
       sub_scheds: getSubject_Schedules(),
       subject_id: '',
       sub_sched_id: '',
-      scheds: []
+      scheds: [],
+      sched_to_render: []
     }
   }
 
@@ -35,12 +36,16 @@ export default class RegisterStudent extends Component {
   }
 
   registerStudent = (event) => {
-    event.preventDefault();
+    event.preventDefault(); // prevents default refresh
+
+    // create a new object for new student schedule to post onto the schedules 'database'
     const newStudentSched = {
       id: `${this.state.firstname}_${this.state.firstname}_sched_${this.state.id}`,
       subject_sched_lst: this.state.scheds
     }
     schedules.push(newStudentSched);
+
+    // create a new object for student to post onto the student 'database' including the newly created student schedule
     const addStudent = {
       id: this.state.id,
       lastname: this.state.lastname, 
@@ -55,13 +60,7 @@ export default class RegisterStudent extends Component {
       // this section will be references to different tables that this has a relationship with
       subject_schedule_id: newStudentSched.id
     }    
-    console.log(addStudent.subject_schedule_id)
-    studentsdata.push(addStudent);
-
-    // select subject
-    // select time
-    // add subjects to schedule and create a schedule id
-    // add schedule id to students
+    studentsdata.push(addStudent);    
   }
 
   addToSched = () => {
@@ -73,9 +72,12 @@ export default class RegisterStudent extends Component {
       return subs.id !== this.state.subject_id
     })
     
+    // has a limit of 3 subjects to add into the schedule
+    // sub_scheds and subjects are modified whenever a time is selected so that it removes the ones already selected by the user
     if (this.state.scheds.length <= 3) {
       this.setState({
         scheds: [...this.state.scheds, this.state.sub_sched_id],
+        sched_to_render: getNewRegisteredSched([...this.state.scheds, this.state.sub_sched_id]),
         sub_scheds: availableScheds,
         subjects: availableSubjects
       })
@@ -86,9 +88,26 @@ export default class RegisterStudent extends Component {
     this.props.history.push('/departments', this.props.history.location.state);
   }
 
+  removeSched = (sched_id) => {    
+    const removeSched = this.state.scheds.filter(sched => {
+      return sched !== sched_id
+    })
+    const restoredSub = getRestoredSubject(sched_id);
+    const restoredSched = getRestoredSched(sched_id);
+    this.setState({
+      scheds: removeSched,
+      sched_to_render: getNewRegisteredSched(removeSched),
+      subjects: [...this.state.subjects, restoredSub],
+      sub_scheds: [...this.state.sub_scheds, restoredSched]
+    })
+  }
+
   render() {
-    //console.log(schedules);
+    //console.log(this.state.scheds)
     //console.log(this.props.history.location.state);
+
+    // if state subject_id is empty, this will not be rendered
+    // but if it's not empty, it will filter the schedules according to the selected subject and then render the times of that subject
     const filterSched = this.state.sub_scheds.filter(subsched => this.state.subject_id === subsched.subject_id)
     
     const renderSubSchedTime = filterSched.map(subsched => 
@@ -105,6 +124,16 @@ export default class RegisterStudent extends Component {
         </div>
       )
     )
+
+    const schedTable = this.state.sched_to_render.map(sched => (
+      <tr key={sched.id}>
+        <td><button onClick={() => this.removeSched(sched.id)}>Remove</button></td>
+        <td>{sched.time.from} - {sched.time.to}</td>
+        <td>{sched.subject_name}</td>
+        <td>{sched.day}</td>
+        <td>{sched.instructor_name}</td>
+      </tr>
+    ))
 
     return (
       <div>
@@ -209,7 +238,29 @@ export default class RegisterStudent extends Component {
             renderSubSchedTime : null
           } <br />
 
-          <button type='button' onClick={this.addToSched}>Add to Schedule</button>
+          {
+            this.state.sched_to_render.length > 0 ?
+            <div>
+              <p>SCHEDULE</p>
+              <table className='center'>
+                <tbody>
+                  <tr>
+                    <th></th>
+                    <th>TIME</th>
+                    <th>SUBJECT</th>
+                    <th>DAY</th>
+                    <th>INSTRUCTOR</th>
+                  </tr>
+                  {schedTable}
+                </tbody>
+              </table>
+            </div>
+            : null
+          }
+
+          <br />
+
+          <button type='button' onClick={this.addToSched}>Add to Schedule</button><br />
 
           <button>Submit</button>
         </form>
