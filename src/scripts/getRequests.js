@@ -58,3 +58,11 @@ export const getGrades = (student) => {
   }
   return grades_lst;
 }
+
+export const getSubjects = () => {
+  return subjects;
+}
+
+export const getSubject_Schedules = () => {
+  return subjects_sched;
+}
