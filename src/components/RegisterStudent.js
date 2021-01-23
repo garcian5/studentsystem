@@ -29,7 +29,8 @@ export default class RegisterStudent extends Component {
       noSched: false,
       students_lst: getStudents(),
       duplicateId: false,
-      emptySched: false
+      emptySched: false,
+      registerError: false
     }
   }
 
@@ -48,26 +49,28 @@ export default class RegisterStudent extends Component {
         [name]: value,
         duplicateId: true
       })
-    } else {
+    } else if (name === 'id' && checkExistingId.length <= 0) {
       this.setState({
         [name]: value,
         duplicateId: false
       })
+    } else {      
+      this.setState({
+        [name]: value
+      })
     }
-    this.setState({
-      [name]: value
-    })
   }
 
   registerStudent = (event) => {
     event.preventDefault(); // prevents default refresh
-    console.log(this.state.scheds)
+    
     // if user did not enter a schedule, do not let them register
     if (this.state.scheds.length <= 0) {
       this.setState({ noSched: true })
       return
     }  
-    if (this.duplicateId) {
+    if (this.state.duplicateId) {
+      this.setState({ registerError: true });
       return
     }
 
@@ -298,6 +301,8 @@ export default class RegisterStudent extends Component {
             renderSubSchedTime : null
           } <br />
 
+          <button type='button' onClick={this.addToSched}>Add to Schedule</button><br />
+
           {
             this.state.sched_to_render.length > 0 ?
             <div>
@@ -316,14 +321,12 @@ export default class RegisterStudent extends Component {
               </table>
             </div>
             : null
-          }
+          }          
 
-          <button type='button' onClick={this.addToSched}>Add to Schedule</button><br />
-
-          <br/>
           {this.state.noSched ? <p style={{color: 'red'}}>Please Enter a Schedule!</p> : null}
           {this.state.duplicateId ? <p style={{color: 'red'}}>Please Enter a Different Id!</p> : null}
           {this.state.emptySched ? <p style={{color: 'red'}}>Please Select a Subject!</p> : null}
+          {this.state.registerError ? <p style={{color: 'red'}}>Register Error!</p> : null}
 
           <button>Register Student</button>
         </form>
