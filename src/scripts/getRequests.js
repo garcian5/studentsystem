@@ -119,7 +119,6 @@ export const getRestoredSubject = (sched_id) => {
       restoredSub = sub;
     }
   }
-  console.log(restoredSub)
   return restoredSub;
 }
 

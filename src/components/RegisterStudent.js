@@ -28,7 +28,8 @@ export default class RegisterStudent extends Component {
 
       noSched: false,
       students_lst: getStudents(),
-      duplicateId: false
+      duplicateId: false,
+      emptySched: false
     }
   }
 
@@ -97,23 +98,37 @@ export default class RegisterStudent extends Component {
   }
 
   addToSched = () => {
-    // gets the remaining schedules that were not selected by the user
-    const availableScheds = this.state.sub_scheds.filter(subs => {
-      return subs.id !== this.state.sub_sched_id
+    const checkDuplicateSched = this.state.scheds.filter(sched => {
+      return sched === this.state.sub_sched_id
     })
-    const availableSubjects = this.state.subjects.filter(subs => {
-      return subs.id !== this.state.subject_id
-    })
-    
-    // has a limit of 3 subjects to add into the schedule
-    // sub_scheds and subjects are modified whenever a time is selected so that it removes the ones already selected by the user
-    if (this.state.scheds.length <= 3) {
+    // if selected schedule is an empty string
+    if (this.state.sub_sched_id === '') {
       this.setState({
-        scheds: [...this.state.scheds, this.state.sub_sched_id],
-        sched_to_render: getNewRegisteredSched([...this.state.scheds, this.state.sub_sched_id]),
-        sub_scheds: availableScheds,
-        subjects: availableSubjects
+        emptySched: true
       })
+      return
+    } else if (checkDuplicateSched.length > 0) {
+      return;
+    } else {
+      // gets the remaining schedules that were not selected by the user
+      const availableScheds = this.state.sub_scheds.filter(subs => {
+        return subs.id !== this.state.sub_sched_id
+      })
+      const availableSubjects = this.state.subjects.filter(subs => {
+        return subs.id !== this.state.subject_id
+      })
+      
+      // has a limit of 3 subjects to add into the schedule
+      // sub_scheds and subjects are modified whenever a time is selected so that it removes the ones already selected by the user
+      if (this.state.scheds.length <= 3) {
+        this.setState({
+          scheds: [...this.state.scheds, this.state.sub_sched_id],
+          sched_to_render: getNewRegisteredSched([...this.state.scheds, this.state.sub_sched_id]),
+          sub_scheds: availableScheds,
+          subjects: availableSubjects,
+          emptySched: false
+        })
+      }
     }
   }
 
@@ -308,6 +323,7 @@ export default class RegisterStudent extends Component {
           <br/>
           {this.state.noSched ? <p style={{color: 'red'}}>Please Enter a Schedule!</p> : null}
           {this.state.duplicateId ? <p style={{color: 'red'}}>Please Enter a Different Id!</p> : null}
+          {this.state.emptySched ? <p style={{color: 'red'}}>Please Select a Subject!</p> : null}
 
           <button>Register Student</button>
         </form>
