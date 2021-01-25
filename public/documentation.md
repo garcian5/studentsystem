@@ -4,6 +4,12 @@ Description: ---
 ***
 <br/>
 
+# NOTE
+This version does not contain any real database. All data is processed as a list in separate js files. When registering, refreshing the browser or returning to the login page will wipe out any new registers automatically.
+
+***
+<br/>
+
 ## General Information
 This project is created with the React library.
 
