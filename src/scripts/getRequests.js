@@ -55,6 +55,8 @@ export const getGrades = (student) => {
         temp_grade_info.subject_name = subject.name;
       }
     }
+    // if there is no grade for the student in this iteration, skip it (don't) push onto the list
+    if (Object.keys(temp_grade_info).length === 0) continue;
     grades_lst.push(temp_grade_info);
   }
   return grades_lst;

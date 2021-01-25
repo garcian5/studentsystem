@@ -100,19 +100,28 @@ export default class StudentInfo extends Component {
               {renderSchedule}
             </tbody>
           </table>
-          
-          <p>GRADES</p>
-          <table className='center'>
-            <tbody>
-              <tr>
-                <th>SUBJECTS</th>
-                <th>PRELIM</th>
-                <th>MIDTERM</th>
-                <th>FINAL</th>
-              </tr>
-              {renderGrades}
-            </tbody>
-          </table>
+
+          {
+            this.state.grades.length === 0 ?
+            <div>
+              <p>No Grades to display yet.</p>
+            </div>
+            : 
+            <div>
+              <p>GRADES</p>
+              <table className='center'>
+                <tbody>
+                  <tr>
+                    <th>SUBJECTS</th>
+                    <th>PRELIM</th>
+                    <th>MIDTERM</th>
+                    <th>FINAL</th>
+                  </tr>
+                  {renderGrades}
+                </tbody>
+              </table>
+            </div>
+          }          
         </div>
       )
     } else if (!this.state.accessAllowed || this.state.firstMount) {
