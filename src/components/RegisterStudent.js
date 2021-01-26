@@ -68,7 +68,8 @@ export default class RegisterStudent extends Component {
     if (this.state.scheds.length <= 0) {
       this.setState({ noSched: true })
       return
-    }  
+    } 
+    
     if (this.state.duplicateId) {
       this.setState({ registerError: true });
       return

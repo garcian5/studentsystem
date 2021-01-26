@@ -10,7 +10,7 @@ import RegisterStudent from './components/RegisterStudent';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App center">
       {/* <header>
         <h1>Welcome to Student Information System</h1>
       </header> */}
