@@ -56,7 +56,7 @@ export default class Home extends Component {
         } else {
           // display error to page
           this.setState({
-            errorMsg: 'Id matches but password incorrect.'
+            errorMsg: 'Incorrect password. Please try again.'
           })
         }
         break;
@@ -71,29 +71,29 @@ export default class Home extends Component {
   render() {
     //console.log(Admin.admin1.id); // this is how we get id of admin1
     return (
-      <div>
-        <form onSubmit={this.logIn}>
-          <label>Admin ID Number:
-            <input 
-              type="text" 
-              name="adminID" 
-              value={this.state.adminID}
-              onChange={this.inputChange}
-            />
-          </label><br />
-          <label>Password:
-            <input 
-              type="password" 
-              name="adminPassword"
-              value={this.state.adminPassword}
-              onChange={this.inputChange}
-            />
-          </label><br />
+      <div className="home-login">
+        <form onSubmit={this.logIn} className='home-form'>
+          <label>Admin ID Number: </label>
+          <input 
+            type="text" 
+            name="adminID" 
+            value={this.state.adminID}
+            onChange={this.inputChange}
+          />
+          <br />
+          <label>Password: </label>
+          <input 
+            type="password" 
+            name="adminPassword"
+            value={this.state.adminPassword}
+            onChange={this.inputChange}
+          />
+          <br />
           <button>Log In</button>
         </form>
         {
           this.state.errorMsg !== '' ?
-          <p style={{color: 'red'}}>{this.state.errorMsg}</p>
+          <p className="error-msg">{this.state.errorMsg}</p>
           : null
         }
       </div>

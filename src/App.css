@@ -24,27 +24,47 @@ body {
 }
 
 /*-----------------------------------------
-    Center vertically and horizontally
+    Center
 -----------------------------------------*/
 .center {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
+  margin: 0 auto;
+  margin-top: 150px;
+}
+
+/*-----------------------------------------
+    FORM STYLES
+-----------------------------------------*/
+input[type="text"], input[type="Date"], input[type="password"], input[type="number"], .select-dropdown {  
+  width: 30%;
+  padding: 8px;
+  margin: 10px 10px;
+  border: 1px solid rgb(128, 127, 127);
+  /* border-radius: 4px; */
+  font-size: 17px;
 }
 
 /*input and button styles*/
 button, input[type="button"], input[type="submit"] {
-  border: 1px solid;
-  padding: 10px 30px;
-  background-color: #92CEF7;
+  border: 1px solid #4d7a99;
+  border-radius: 5%;
+  padding: 15px 60px;
+  background-color: #6baad4;
+  color: #fff;  
+  font-size: 20px;
+  margin: 20px;
 }
+/*on button hover*/
+button:hover, input[type="button"]:hover, input[type="submit"]:hover {
+  background-color: #79a2bd;
+  cursor: pointer;
+}
+
 /*align input boxes*/
 label{
   display: inline-block;
   clear: left;
   width: 250px;
+  margin: 5px 5px;
   text-align: right;
 }
 input, select {
@@ -55,6 +75,9 @@ input, select {
   margin: 20px 10px;
   width: 20%;
 }
+
+/*style input from home form*/
+.home-form input { border-color: rgb(33, 128, 33); }
 
 /*-----------------------------------------
           centering table
@@ -68,4 +91,20 @@ table.center {
   margin-top: 35px;
   margin-left: auto; 
   margin-right: auto;
+}
+
+/*-----------------------------------------
+          HOME LOGIN
+-----------------------------------------*/
+.home-login {
+  font-size: 25px;
+}
+
+/*-----------------------------------------
+        ERROR MESSAGE STYLE
+-----------------------------------------*/
+.error-msg {
+  color: rgb(187, 46, 46);
+  font-weight: 300;
+  font-size: 20px;
 }
