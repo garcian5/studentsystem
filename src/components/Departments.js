@@ -64,11 +64,11 @@ export default class Departments extends Component {
       // if access allowed and not first mount, display contents
       return (
         <div>
-          <button>Departments</button>
-          <button onClick={this.registerClicked}>Register</button>
-          <h1>Departments</h1>
+          <button className='link-style-btn'>Departments</button>
+          <button className='link-style-btn' onClick={this.registerClicked}>Register</button>
+          <h1 className='departments-heading'>Departments</h1>
           <button onClick={this.isBtnClicked}>ICS</button><br />
-          <button onClick={this.backBtnClicked}>Sign Out</button>
+          <button className='link-style-btn' onClick={this.backBtnClicked}>Sign Out</button>
         </div>
       )
     } else if (!this.state.accessAllowed && !this.state.firstMount) {
