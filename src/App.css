@@ -76,26 +76,6 @@ input, select {
   width: 20%;
 }
 
-/*style input from home form*/
-.home-form input { border-color: rgb(33, 128, 33); }
-
-/*convert button to links*/
-.link-style-btn {
-  background-color: transparent;
-  font-size: 17px;
-  color: rgb(16, 89, 156);
-  text-decoration: underline;
-  border: none;
-}
-.link-style-btn:hover {
-  background-color: transparent;
-  color: rgb(13, 63, 110);
-}
-.departments-heading {
-  color: rgb(12, 60, 105);
-  font-size: 50px;
-  font-weight: 400;
-}
 /*-----------------------------------------
           centering table
 -----------------------------------------*/
@@ -114,7 +94,43 @@ table.center {
           HOME LOGIN
 -----------------------------------------*/
 .home-login {
+  position: relative;
+  height: 500px;
   font-size: 25px;
+}
+
+.home-form {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+/*style input from home form*/
+.home-form input { border-color: rgb(33, 128, 33); }
+
+/*-----------------------------------------
+          DEPARTMENTS
+-----------------------------------------*/
+
+/*convert button to links*/
+.link-style-btn {
+  background-color: transparent;
+  font-size: 17px;
+  color: rgb(16, 89, 156);
+  text-decoration: underline;
+  border: none;
+}
+.link-style-btn:hover {
+  background-color: transparent;
+  color: rgb(13, 63, 110);
+}
+.departments-heading {
+  color: rgb(12, 60, 105);
+  font-size: 50px;
+  font-weight: 400;
 }
 
 /*-----------------------------------------
