@@ -51,7 +51,7 @@ button, input[type="button"], input[type="submit"] {
   background-color: #6baad4;
   color: #fff;  
   font-size: 20px;
-  margin: 20px;
+  /* margin: 20px; */
 }
 /*on button hover*/
 button:hover, input[type="button"]:hover, input[type="submit"]:hover {
@@ -114,7 +114,6 @@ table.center {
 /*-----------------------------------------
           DEPARTMENTS
 -----------------------------------------*/
-
 /*convert button to links*/
 .link-style-btn {
   background-color: transparent;
@@ -131,6 +130,17 @@ table.center {
   color: rgb(12, 60, 105);
   font-size: 50px;
   font-weight: 400;
+}
+
+/*-----------------------------------------
+        STUDENT DIRECTORY STYLE
+-----------------------------------------*/
+li {
+  list-style-type: none;
+}
+.name-lst {
+  font-size: 25px;
+  text-align: center;
 }
 
 /*-----------------------------------------

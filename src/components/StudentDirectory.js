@@ -25,16 +25,16 @@ export default class StudentDirectory extends Component {
     const students_lst = this.state.students.map(student => (
       <ul key={student.id}>
         <li>
-          <button onClick={() => this.toStudentIfoClicked(student.id)}>{student.lastname}, {student.firstname} {student.middlename}</button>
+          <button className='link-style-btn' onClick={() => this.toStudentIfoClicked(student.id)}>{student.lastname}, {student.firstname} {student.middlename}</button>
         </li>
       </ul>
     ))
     return (
       <div>
-        <button onClick={this.backBtnClicked}>Back</button>
-        <button>Home</button>
-        <h1>ICS Student Directory</h1>
-        <h6>Name List</h6>
+        <button className='link-style-btn' onClick={this.backBtnClicked}>Back</button>
+        <button className='link-style-btn'>Home</button>
+        <h1 className='departments-heading'>ICS Student Directory</h1>
+        <p className='name-lst'>Name List</p>
         {students_lst}
       </div>
     )
