@@ -79,7 +79,7 @@ export default class StudentInfo extends Component {
 
       return (
         <div>
-          <button onClick={this.backBtnClicked}>Back</button>
+          <button className='back-btn link-style-btn' onClick={this.backBtnClicked}>Back</button>
           <p>Student ID Number: {student_info.id}</p>
           <p>Name: {student_info.firstname} {student_info.middlename} {student_info.lastname}</p>
           <p>Date of Birth: {student_info.dob.toString().substring(3, 15)}</p>
