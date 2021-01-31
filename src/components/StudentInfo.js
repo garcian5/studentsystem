@@ -6,6 +6,11 @@ import studentsdata from '../data/students';
 // import get requests
 import { getSchedule, getGrades } from '../scripts/getRequests';
 
+// import images
+import E1 from '../imgs/1.jpg';
+import L2 from '../imgs/2.jpg';
+import P3 from '../imgs/3.jpg';
+
 export default class StudentInfo extends Component {
   constructor() {
     super();
@@ -79,7 +84,15 @@ export default class StudentInfo extends Component {
 
       return (
         <div>
-          <button className='back-btn link-style-btn' onClick={this.backBtnClicked}>Back</button>
+          <button className='back-btn link-style-btn' onClick={this.backBtnClicked}>Back</button> <br/>
+          
+          {
+            student_info.lastname.charAt(0).concat(student_info.id) === 'E1' ? <img src={E1} alt="empanso image"/>
+            : student_info.lastname.charAt(0).concat(student_info.id) === 'L2' ? <img src={L2} alt="lore img"/>
+            : student_info.lastname.charAt(0).concat(student_info.id) === 'P3' ? <img src={P3} alt="perez img"/>
+            : <h4>No Image</h4>
+          }
+
           <p>Student ID Number: {student_info.id}</p>
           <p>Name: {student_info.firstname} {student_info.middlename} {student_info.lastname}</p>
           <p>Date of Birth: {student_info.dob.toString().substring(3, 15)}</p>
