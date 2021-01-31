@@ -52,6 +52,10 @@ export default class StudentInfo extends Component {
     this.props.history.push('/student-directory', this.props.history.location.state);
   }
 
+  updateBtnClicked = () => {
+    this.props.history.push('/student-update', this.state.student_info);
+  }
+
   render() {
     // object destructuring - for easy use
     //const {student_info} = this.state;
@@ -84,7 +88,8 @@ export default class StudentInfo extends Component {
 
       return (
         <div>
-          <button className='back-btn link-style-btn' onClick={this.backBtnClicked}>Back</button> <br/>
+          <button className='back-btn link-style-btn' onClick={this.backBtnClicked}>Back</button>
+          <button className='link-style-btn' onClick={this.updateBtnClicked}>Update</button> <br/>
           
           {
             student_info.lastname.charAt(0).concat(student_info.id) === 'E1' ? <img src={E1} alt="empanso image"/>

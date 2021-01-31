@@ -7,6 +7,7 @@ import Departments from './components/Departments';
 import StudentDirectory from './components/StudentDirectory';
 import StudentInfo from './components/StudentInfo';
 import RegisterStudent from './components/RegisterStudent';
+import UpdateStudent from './components/UpdateStudent';
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route exact path='/student-directory' component={StudentDirectory} />
           <Route exact path='/student-info' component={StudentInfo} />
           <Route exact path='/student-register' component={RegisterStudent} />
+          <Route exact path='/student-update' component={UpdateStudent} />
         </Switch>
       </Router>
     </div>
