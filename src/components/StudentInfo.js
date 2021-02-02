@@ -64,15 +64,21 @@ export default class StudentInfo extends Component {
         // find index of student to delete
         const studentIndex = studentsdata.indexOf(student);
         studentsdata.splice(studentIndex, 1);
+        break;
       }
     }
 
-    for (const studentgrade of grades) {
-      if (studentgrade.student_id === this.state.student_info[0].id) {
-        // find index of student to delete
-        const gradeIndex = grades.indexOf(studentgrade);
-        grades.splice(gradeIndex, 1);
+    // iterate through grades list and store indexes we will delete into a variable
+    let delGradeIndexes = [];
+    for (var i = 0; i<grades.length; i++) {
+      if (grades[i].student_id === this.state.student_info[0].id) {
+        //grades.splice(i, 1);
+        delGradeIndexes.push(grades[i])
       }
+    }
+    // delete elements by the indexes we got
+    for (const index of delGradeIndexes) {
+      grades.splice(index, 1);
     }
 
     this.props.history.push('/student-directory', this.props.history.location.state);    

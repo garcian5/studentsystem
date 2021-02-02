@@ -20,6 +20,11 @@ export default class StudentDirectory extends Component {
     this.props.history.push('/student-info', student_id);
   }
 
+  // go to register page
+  registerClicked = () => {
+    this.props.history.push('/student-register', this.props.history.location.state);
+  }
+
   render() {
     // iterate through the list of students and display their names in the list.
     const students_lst = this.state.students.map(student => (
@@ -33,10 +38,16 @@ export default class StudentDirectory extends Component {
     return (
       <div>
         <button className='link-style-btn' onClick={this.backBtnClicked}>Back</button>
-        <button className='link-style-btn'>Home</button>
+        <button className='link-style-btn' onClick={this.backBtnClicked}>Home</button>
         <h1 className='departments-heading'>ICS Student Directory</h1>
         <p className='name-lst'>Name List</p>
-        {students_lst.length !== 0 ? students_lst : <p>No Students in this Department.</p>}
+        {students_lst.length !== 0 ? students_lst 
+          : 
+          <div>            
+            <p>No Students in this Department. Please register new students here:</p>
+            <button className='link-style-btn' onClick={this.registerClicked}>Register</button>
+          </div>
+        }
       </div>
     )
   }
