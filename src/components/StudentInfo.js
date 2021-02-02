@@ -58,15 +58,20 @@ export default class StudentInfo extends Component {
   }
 
   deleteBtnClicked = () => {
-    // delete student and grades
-    /* studentsdata.filter(student => student.id !== this.state.student_info[0].id);
-    grades.filter(student_grade => student_grade.student_id !== this.state.student_info[0].id); */
-
+    // delete student and grades  
     for (const student of studentsdata) {
       if (student.id === this.state.student_info[0].id) {
         // find index of student to delete
         const studentIndex = studentsdata.indexOf(student);
         studentsdata.splice(studentIndex, 1);
+      }
+    }
+
+    for (const studentgrade of grades) {
+      if (studentgrade.student_id === this.state.student_info[0].id) {
+        // find index of student to delete
+        const gradeIndex = grades.indexOf(studentgrade);
+        grades.splice(gradeIndex, 1);
       }
     }
 
@@ -110,9 +115,9 @@ export default class StudentInfo extends Component {
           <button className='link-style-btn' onClick={this.deleteBtnClicked}>Delete</button> <br/>
           
           {
-            student_info.lastname.charAt(0).concat(student_info.id) === 'E1' ? <img src={E1} alt="empanso image"/>
-            : student_info.lastname.charAt(0).concat(student_info.id) === 'L2' ? <img src={L2} alt="lore img"/>
-            : student_info.lastname.charAt(0).concat(student_info.id) === 'P3' ? <img src={P3} alt="perez img"/>
+            student_info.lastname.charAt(0).concat(student_info.id) === 'E1' ? <img src={E1} alt="empanso"/>
+            : student_info.lastname.charAt(0).concat(student_info.id) === 'L2' ? <img src={L2} alt="lore"/>
+            : student_info.lastname.charAt(0).concat(student_info.id) === 'P3' ? <img src={P3} alt="perez"/>
             : <h4>No Image</h4>
           }
 
