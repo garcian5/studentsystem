@@ -54,7 +54,11 @@ export default class StudentInfo extends Component {
   }
 
   updateBtnClicked = () => {
-    this.props.history.push('/student-update', this.state.student_info);
+    const student_info = {
+      student_info: this.state.student_info,
+      schedule: this.state.schedule
+    }
+    this.props.history.push('/student-update', student_info);
   }
 
   deleteBtnClicked = () => {

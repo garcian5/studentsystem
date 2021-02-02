@@ -17,6 +17,11 @@ export default class UpdateStudent extends Component {
       year_sec: '',
       age: 0,
 
+      schedule: [],
+      prelim: [],
+      midterm: [],
+      final: [],
+
       updated: false
     }
   }
@@ -24,7 +29,16 @@ export default class UpdateStudent extends Component {
   componentDidMount() {
     // if our state is not empty we allow access, if it is we deny access to page
     if (this.props.history.location.state !== undefined) {
-      const student_info = this.props.history.location.state[0];
+      const student_info = this.props.history.location.state.student_info[0];
+      // loop through schedule and add key value pair list onto prelim and midterm
+      const sched = this.props.history.location.state.schedule;
+      /* const gradeKeyVal = sched.map(sub => {
+        const subGrade = {          
+          subject_name: sub.subject_name,
+          grade: 0
+        }
+        return subGrade
+      }) */
       this.setState({
         id: student_info.id,
         firstname: student_info.firstname,
@@ -35,7 +49,8 @@ export default class UpdateStudent extends Component {
         contact_num: student_info.contact,
         course: student_info.course,
         year_sec: student_info.yearsection,
-        age: student_info.age
+        age: student_info.age,
+        schedule: sched,
       })
     }
   }
@@ -48,10 +63,33 @@ export default class UpdateStudent extends Component {
 
   handleInputChange = (event) => {
     const {name, value} = event.target;
-    this.setState({
-      [name]: value
-    })
+    if (name === 'prelim') {
+      this.setState({
+        [name]: value
+      })
+    } else {
+      this.setState({
+        [name]: value
+      })
+    }
   }
+
+  /* prelimInputChange = (sub_name, event) => { 
+    const {name, value} = event.target;   
+    // copy of list
+    //let prelims = [...this.state.prelim]
+    // copy of item
+    //let preGrade = {...prelims[sub_name]}
+    // console.log(name + ':', value)
+    console.log('prelim:', this.state.prelim.find(g => {
+      console.log('find:', g)
+      return g.subject_name === sub_name
+
+    }))
+    this.setState({
+      prelim: value
+    })
+  } */
 
   updateStudent = (event) => {
     event.preventDefault();
@@ -79,6 +117,26 @@ export default class UpdateStudent extends Component {
   }
 
   render() {
+    /* console.log(this.state.prelim)
+    const renderUpdateGrades = this.state.schedule.map(sched => (
+      <div key={sched.id}>
+        <label>Prelim: </label>
+        <input 
+          type = "number" 
+          name = 'prelim'
+          value = {this.state.prelim.find(g => g.subject_name === sched.subject_name)}
+          onChange = {(e) => this.prelimInputChange(sched.subject_name, e)}
+        />
+        <label>Midterm: </label>
+        <input 
+          type = "number" 
+          name = "midterm" 
+          value = {this.state.midterm.find(g => g.subject_name === sched.subject_name)}
+          onChange = {this.handleInputChange}
+        />
+        <label>{sched.subject_name}</label>
+      </div>
+    )) */
     return (
       <div>
         <button className='back-btn link-style-btn' onClick={this.backBtnClicked}>Back</button>
@@ -169,6 +227,8 @@ export default class UpdateStudent extends Component {
           <select name="departments">
             <option value="ICS">ICS</option>
           </select> <br />
+
+          {/* renderUpdateGrades */}
 
           <button>Update {this.state.lastname}</button>
         </form>
