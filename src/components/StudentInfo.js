@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 
 // import data
 import studentsdata from '../data/students';
+import grades from '../data/grades';
 
 // import get requests
 import { getSchedule, getGrades } from '../scripts/getRequests';
@@ -56,6 +57,22 @@ export default class StudentInfo extends Component {
     this.props.history.push('/student-update', this.state.student_info);
   }
 
+  deleteBtnClicked = () => {
+    // delete student and grades
+    /* studentsdata.filter(student => student.id !== this.state.student_info[0].id);
+    grades.filter(student_grade => student_grade.student_id !== this.state.student_info[0].id); */
+
+    for (const student of studentsdata) {
+      if (student.id === this.state.student_info[0].id) {
+        // find index of student to delete
+        const studentIndex = studentsdata.indexOf(student);
+        studentsdata.splice(studentIndex, 1);
+      }
+    }
+
+    this.props.history.push('/student-directory', this.props.history.location.state);    
+  }
+
   render() {
     // object destructuring - for easy use
     //const {student_info} = this.state;
@@ -89,7 +106,8 @@ export default class StudentInfo extends Component {
       return (
         <div>
           <button className='back-btn link-style-btn' onClick={this.backBtnClicked}>Back</button>
-          <button className='link-style-btn' onClick={this.updateBtnClicked}>Update</button> <br/>
+          <button className='link-style-btn' onClick={this.updateBtnClicked}>Update</button>
+          <button className='link-style-btn' onClick={this.deleteBtnClicked}>Delete</button> <br/>
           
           {
             student_info.lastname.charAt(0).concat(student_info.id) === 'E1' ? <img src={E1} alt="empanso image"/>
