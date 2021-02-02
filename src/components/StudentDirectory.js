@@ -29,13 +29,14 @@ export default class StudentDirectory extends Component {
         </li>
       </ul>
     ))
+    
     return (
       <div>
         <button className='link-style-btn' onClick={this.backBtnClicked}>Back</button>
         <button className='link-style-btn'>Home</button>
         <h1 className='departments-heading'>ICS Student Directory</h1>
         <p className='name-lst'>Name List</p>
-        {students_lst}
+        {students_lst.length !== 0 ? students_lst : <p>No Students in this Department.</p>}
       </div>
     )
   }
