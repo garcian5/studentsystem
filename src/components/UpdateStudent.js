@@ -79,7 +79,6 @@ export default class UpdateStudent extends Component {
   }
 
   render() {
-    console.log(this.state.student_info)
     return (
       <div>
         <button className='back-btn link-style-btn' onClick={this.backBtnClicked}>Back</button>

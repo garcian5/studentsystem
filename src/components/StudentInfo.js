@@ -130,6 +130,7 @@ export default class StudentInfo extends Component {
           <p>Student ID Number: {student_info.id}</p>
           <p>Name: {student_info.firstname} {student_info.middlename} {student_info.lastname}</p>
           <p>Date of Birth: {student_info.dob.toString().substring(3, 15)}</p>
+          <p>Age: {student_info.age}</p>
           <p>Address: {student_info.address}</p>
           <p>Contact Number: {student_info.contact}</p>
           <p>Course: {student_info.course}</p>
