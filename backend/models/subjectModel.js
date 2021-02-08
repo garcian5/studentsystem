@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 // list of schedules
 const SubjectSchema = new Schema({
-  subject_name: {type: String},
+  subject_name: {type: String, required: true},
   instructor_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Instructor'}
 });
 
