@@ -29,6 +29,10 @@ connection.once('open', () => {
   console.log("MongoDB database connection established successfully");
 });
 
+// use routes
+app.use('/admin', require('./routes/admin'));
+app.use('/student', require('./routes/student'));
+
 // start our server
 app.listen(port, () => {
   console.log(`Server started at ${port}`);
