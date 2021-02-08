@@ -18,8 +18,6 @@ app.use(express.json());
 
 const mongodb_uri = process.env.MONGODB_URI;
 
-console.log('MONGODB URI:', mongodb_uri)
-
 // connect our server to mongoose
 mongoose.connect(mongodb_uri, {
   useNewUrlParser: true,
