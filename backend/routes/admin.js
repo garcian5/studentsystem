@@ -33,4 +33,14 @@ router.post('/addadmin', async (req, res) => {
   } catch (err) { res.status(500).json({error: err.message}); }
 });
 
+router.get('/getadmin', async (req, res) => {
+  try {
+    const {admin_id, password} = req.query;
+    const adminExists = await Admin.findOne({admin_id: admin_id});
+    if (!adminExists) return validation('adminNotExist', res);
+    if (password !== adminExists.password) return validation('incorrectAdminPass', res);
+    res.json({msg: 'Login success!', admin: adminExists});
+  } catch (err) { res.status(500).json({error: err.message}); }
+})
+
 module.exports = router;

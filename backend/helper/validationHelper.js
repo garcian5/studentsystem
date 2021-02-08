@@ -19,6 +19,16 @@ module.exports = validationHelper = (type, res) => {
       return res.status(400).json({
         msg: "Admin id already exists. Please choose a different one."
       });
+    
+    case ("adminNotExist"):
+      return res.status(400).json({
+        msg: "Admin does not exist."
+      });
+    
+    case ("incorrectAdminPass"):
+      return res.status(400).json({
+        msg: "Incorrect Password. Please try again."
+      });
 
     default:
       return console.log(type + "Error Occured.");
