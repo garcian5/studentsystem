@@ -48,10 +48,12 @@ router.post('/addstudent', async (req, res) => {
 /**
  * @route   POST student/getstudents
  * @desc    gets all students names and generated id
+ * @component StudentDirectory.js lists all students in department
  * */
 router.get('/getstudents', async (req, res) => {
   try {
-    
+    const allStudents = await Student.find().sort({lastname: 1});
+    res.json(allStudents);
   } catch (err) { res.status(500).json({error: err.message}); }
 })
 
