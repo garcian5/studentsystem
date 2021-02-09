@@ -8,6 +8,7 @@ import axios from 'axios';
 import E1 from '../imgs/1.jpg';
 import L2 from '../imgs/2.jpg';
 import P3 from '../imgs/3.jpg';
+import DeleteModal from './other/DeleteModal';
 
 export default class StudentInfo extends Component {
   constructor() {
@@ -16,6 +17,7 @@ export default class StudentInfo extends Component {
       student_info: {},
       grades: [],
       errorMsg: '',
+      delModalShow: false,
       accessAllowed: false,
       firstMount: true
     }
@@ -54,12 +56,15 @@ export default class StudentInfo extends Component {
     this.props.history.push('/student-update', student_info);
   }
 
-  deleteBtnClicked = () => {
+  /* deleteBtnClicked = () => {
 
     axios.delete('/student/delstudent/' + this.state.student_info._id)
 
     this.props.history.push('/student-directory', this.props.history.location.state);    
-  }
+  } */
+
+  deleteBtnClicked = () => this.setState({delModalShow: true})
+  onModalHide = () => this.setState({delModalShow: false})
 
   render() {
     // object destructuring - for easy use
@@ -67,7 +72,7 @@ export default class StudentInfo extends Component {
         
     // if we are allowed access to page and the page is not on the first stage of mounting, display student info
     if (this.state.accessAllowed && !this.state.firstMount) {
-      const {student_info, grades} = this.state;
+      const {student_info, grades, delModalShow} = this.state;
 
       // render schedule table
       const renderSchedule = student_info.sub_sched_lst.map (sched => (
@@ -144,7 +149,12 @@ export default class StudentInfo extends Component {
                 </tbody>
               </table>
             </div>
-          }          
+          }
+          <DeleteModal 
+            show={delModalShow}
+            onHide={this.onModalHide}
+            student_id={student_info._id}
+          />
         </div>
       )
     } else if (this.state.firstMount) {

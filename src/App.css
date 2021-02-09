@@ -120,7 +120,9 @@ table.center {
   font-size: 17px;
   color: rgb(16, 89, 156);
   text-decoration: underline;
-  border: none;
+  border: none;  
+  padding: 0;
+  margin: 15px 55px;
 }
 .link-style-btn:hover {
   background-color: transparent;
