@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
-import axios from 'axios';
 
-/* import {getSubjects, getSubject_Schedules, getNewRegisteredSched, getRestoredSubject, getRestoredSched, getStudents} from '../scripts/getRequests';
+import {getSubjects, getSubject_Schedules, getNewRegisteredSched, getRestoredSubject, getRestoredSched, getStudents} from '../scripts/getRequests';
 import studentsdata from '../data/students';
-import schedules from '../data/schedules'; */
+import schedules from '../data/schedules';
 
 export default class RegisterStudent extends Component {
   constructor () {
@@ -19,14 +18,16 @@ export default class RegisterStudent extends Component {
       contact_num: '',
       course: '',
       year_sec: '',
-      
-      sub_scheds: [],
-      
+
+      subjects: getSubjects(),
+      sub_scheds: getSubject_Schedules(),
+      subject_id: '',
       sub_sched_id: '',
       scheds: [],
       sched_to_render: [],
 
       noSched: false,
+      students_lst: getStudents(),
       duplicateId: false,
       emptySched: false,
       registerError: false
@@ -34,19 +35,105 @@ export default class RegisterStudent extends Component {
   }
 
   handleInputChange = (event) => {
-    const {name, value} = event.target;    
-    this.setState({
-      [name]: value
-    })
+    const {name, value} = event.target;
+    // checks if id is not a duplicate in the students database
+    let checkExistingId = [];
+    if (name === 'id') {
+      checkExistingId = this.state.students_lst.filter(student => {
+        return value === student.id
+      })
+    }
+    // if id exists, don't let them enter
+    if (checkExistingId.length > 0) {
+      this.setState({
+        [name]: value,
+        duplicateId: true
+      })
+    } else if (name === 'id' && checkExistingId.length <= 0) {
+      this.setState({
+        [name]: value,
+        duplicateId: false
+      })
+    } else {      
+      this.setState({
+        [name]: value
+      })
+    }
   }
 
   registerStudent = (event) => {
     event.preventDefault(); // prevents default refresh
     
+    // if user did not enter a schedule, do not let them register
+    if (this.state.scheds.length <= 0) {
+      this.setState({ noSched: true })
+      return
+    } 
+    
+    if (this.state.duplicateId) {
+      this.setState({ registerError: true });
+      return
+    }
+
+    // create a new object for new student schedule to post onto the schedules 'database'
+    const newStudentSched = {
+      id: `${this.state.firstname}_${this.state.firstname}_sched_${this.state.id}`,
+      subject_sched_lst: this.state.scheds
+    }
+    schedules.push(newStudentSched);
+
+    // create a new object for student to post onto the student 'database' including the newly created student schedule
+    const addStudent = {
+      id: this.state.id,
+      lastname: this.state.lastname, 
+      firstname: this.state.firstname, 
+      middlename: this.state.middlename,
+      age: this.state.age,
+      dob: this.state.dob.toString(), // subtract actual month by 1 to get accurate date
+      address: this.state.address,
+      contact: this.state.contact_num,
+      course: this.state.course,
+      yearsection: this.state.year_sec,
+      // this section will be references to different tables that this has a relationship with
+      subject_schedule_id: newStudentSched.id
+    }    
+    studentsdata.push(addStudent);    
+    this.props.history.push('/student-directory', this.props.history.location.state);
   }
 
   addToSched = () => {
-    
+    const checkDuplicateSched = this.state.scheds.filter(sched => {
+      return sched === this.state.sub_sched_id
+    })
+    // if selected schedule is an empty string
+    if (this.state.sub_sched_id === '') {
+      this.setState({
+        emptySched: true
+      })
+      return
+    } else if (checkDuplicateSched.length > 0) {
+      return;
+    } else {
+      // gets the remaining schedules that were not selected by the user
+      const availableScheds = this.state.sub_scheds.filter(subs => {
+        return subs.id !== this.state.sub_sched_id
+      })
+      const availableSubjects = this.state.subjects.filter(subs => {
+        return subs.id !== this.state.subject_id
+      })
+      
+      // has a limit of 3 subjects to add into the schedule
+      // sub_scheds and subjects are modified whenever a time is selected so that it removes the ones already selected by the user
+      if (this.state.scheds.length <= 3) {
+        this.setState({
+          scheds: [...this.state.scheds, this.state.sub_sched_id],
+          sched_to_render: getNewRegisteredSched([...this.state.scheds, this.state.sub_sched_id]),
+          sub_scheds: availableScheds,
+          subjects: availableSubjects,
+          emptySched: false
+        })
+      }
+    }
   }
 
   backToDept = () => {
@@ -54,7 +141,17 @@ export default class RegisterStudent extends Component {
   }
 
   removeSched = (sched_id) => {    
-    
+    const removeSched = this.state.scheds.filter(sched => {
+      return sched !== sched_id
+    })
+    const restoredSub = getRestoredSubject(sched_id);
+    const restoredSched = getRestoredSched(sched_id);
+    this.setState({
+      scheds: removeSched,
+      sched_to_render: getNewRegisteredSched(removeSched),
+      subjects: [...this.state.subjects, restoredSub],
+      sub_scheds: [...this.state.sub_scheds, restoredSched]
+    })
   }
 
   render() {
@@ -190,14 +287,14 @@ export default class RegisterStudent extends Component {
             required
           >
             <option>Please Select a Subject</option>
-            {/* // lists out all options from user list
+            {// lists out all options from user list
               this.state.subjects.map(function (sub) {
                 return <option
                     key={sub.id}
                     value={sub.id}>{sub.name}
                 </option>;
               })
-             */}
+            }
           </select><br />
           
           {
