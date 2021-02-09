@@ -45,4 +45,14 @@ router.post('/addstudent', async (req, res) => {
   } catch (err) { res.status(500).json({error: err.message}); }
 });
 
+/**
+ * @route   POST student/getstudents
+ * @desc    gets all students names and generated id
+ * */
+router.get('/getstudents', async (req, res) => {
+  try {
+    
+  } catch (err) { res.status(500).json({error: err.message}); }
+})
+
 module.exports = router;
