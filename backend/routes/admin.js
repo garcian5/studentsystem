@@ -33,6 +33,11 @@ router.post('/addadmin', async (req, res) => {
   } catch (err) { res.status(500).json({error: err.message}); }
 });
 
+/**
+ * @route   POST admin/getadmin/?admin_id=id&password=pass
+ * @desc    authenticates admin login attempt (will fail/return error if wrong info)
+ * @component Home.js
+ * */
 router.get('/getadmin', async (req, res) => {
   try {
     const {admin_id, password} = req.query;
