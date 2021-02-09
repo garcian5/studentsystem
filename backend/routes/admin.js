@@ -39,7 +39,13 @@ router.get('/getadmin', async (req, res) => {
     const adminExists = await Admin.findOne({admin_id: admin_id});
     if (!adminExists) return validation('adminNotExist', res);
     if (password !== adminExists.password) return validation('incorrectAdminPass', res);
-    res.json({msg: 'Login success!', admin: adminExists});
+
+    const loginInfo = {
+      _id: adminExists._id,
+      admin_id: adminExists.admin_id,
+      admin_name: adminExists.admin_name
+    }
+    res.json({msg: 'Login success!', admin: loginInfo});
   } catch (err) { res.status(500).json({error: err.message}); }
 })
 

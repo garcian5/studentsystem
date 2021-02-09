@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Admins from '../data/admins';
+import axios from 'axios';
 
 export default class Home extends Component {
   /**
@@ -29,47 +30,18 @@ export default class Home extends Component {
     // prevents automatic refresh after submit
     event.preventDefault();
 
-    // a flag to check if id exists in the database (assuming there is no duplicate ids); false by default
-    let idExists = false;
-    let matchingAdmin = {}; // temp variable to hold whatever matching admin is on the database
+    const {adminID, adminPassword} = this.state;
 
-    // iterate through the list of admins and find if it exists in the database
-    for (const admin of this.state.admins) {      
-      // if it exists, set flag to true and mutate variable for admin and exit the loop
-      if (admin.id === this.state.adminID) {
-        idExists = true;
-        matchingAdmin = admin;
-        break;
-      } else {
-        // if id doesn't exist, continue the loop
-        continue;
-      }
-    }
-
-    // a switch case statement to check if password matches given the event that the id exists or it sends an error message if id doesn't exist
-    switch (idExists) {
-      case true:
-        if (matchingAdmin.password === this.state.adminPassword) {
-          matchingAdmin.loginToken = '123ToKen456To789LogIn';
-          // redirect to departments page
-          this.props.history.push('/departments', matchingAdmin);
-        } else {
-          // display error to page
-          this.setState({
-            errorMsg: 'Incorrect password. Please try again.'
-          })
-        }
-        break;
-      default:
-        // display error to page
-        this.setState({
-          errorMsg: 'Admin does not exist.'
-        })
-    }
+    // get admin authentication from database
+    axios.get('admin/getadmin/?admin_id=' + adminID + '&password=' + adminPassword)
+      .then(res => {
+        this.props.history.push('/departments', res.data.admin);
+      })
+      .catch(err => { this.setState({ errorMsg: err.response.data.msg }) });
   }
-
+  
   render() {
-    //console.log(Admin.admin1.id); // this is how we get id of admin1
+    //const reqURL = process.env.NODE_ENV === 'production' ? '/items': 'http://localhost:5000/items';
     return (
       <div className="home-login">
         <form onSubmit={this.logIn} className='home-form'>
