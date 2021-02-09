@@ -26,6 +26,9 @@ router.post('/addstudent', async (req, res) => {
     // if no entered lastname and first name don't process and return error message
     if (!lastname || !firstname || !student_id) return validation('missingEntry', res);
 
+    const existingStudentId = await Student.findOne({student_id: student_id});
+    if (existingStudentId) return validation('existingStudentID', res);
+
     const newStudent = new Student({
       student_id, 
       lastname, 

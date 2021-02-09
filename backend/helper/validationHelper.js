@@ -29,6 +29,11 @@ module.exports = validationHelper = (type, res) => {
       return res.status(400).json({
         msg: "Incorrect Password. Please try again."
       });
+    
+    case ("existingStudentID"):
+      return res.status(400).json({
+        msg: "A student with this ID already exists."
+      });
 
     default:
       return console.log(type + "Error Occured.");
