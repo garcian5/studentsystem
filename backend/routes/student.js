@@ -2,6 +2,7 @@ const router = require('express').Router();
 const validation = require('../helper/validationHelper');
 
 const Student = require('../models/studentModel');
+const Grade = require('../models/gradeModel');
 
 /**
  * @route   POST student/addstudent
@@ -75,6 +76,20 @@ router.get('/getstudent/:id', async (req, res) => {
       .populate({path: 'sub_sched_lst', populate: {path: 'subject_id', populate: {path: 'instructor_id'}}})
     if (!student) return validation('studentNotExist', res);
     res.json(student)
+  } catch (err) { res.status(500).json({error: err.message}); }
+})
+
+/**
+ * @route   DELETE student/delstudent/:id
+ * @desc    deletes a student and all their grades by a given id (_id)
+ * @component StudentInfo.js deletes a student
+ * */
+router.delete('/delstudent/:id', async (req, res) => {
+  try {
+    const student = await Student.findByIdAndDelete(req.params.id);
+    const grades = await Grade.deleteMany({student_id: req.params.id});
+
+    res.json({msg: 'delete successful!', student: student, grades: grades});
   } catch (err) { res.status(500).json({error: err.message}); }
 })
 

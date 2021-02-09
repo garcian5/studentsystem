@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-// import data
-import studentsdata from '../data/students';
-import grades from '../data/grades';
-
 // import get requests
 //import { getSchedule, getGrades } from '../scripts/getRequests';
 
@@ -59,28 +55,8 @@ export default class StudentInfo extends Component {
   }
 
   deleteBtnClicked = () => {
-    // delete student and grades  
-    for (const student of studentsdata) {
-      if (student.id === this.state.student_info[0].id) {
-        // find index of student to delete
-        const studentIndex = studentsdata.indexOf(student);
-        studentsdata.splice(studentIndex, 1);
-        break;
-      }
-    }
 
-    // iterate through grades list and store indexes we will delete into a variable
-    let delGradeIndexes = [];
-    for (var i = 0; i<grades.length; i++) {
-      if (grades[i].student_id === this.state.student_info[0].id) {
-        //grades.splice(i, 1);
-        delGradeIndexes.push(grades[i])
-      }
-    }
-    // delete elements by the indexes we got
-    for (const index of delGradeIndexes) {
-      grades.splice(index, 1);
-    }
+    axios.delete('/student/delstudent/' + this.state.student_info._id)
 
     this.props.history.push('/student-directory', this.props.history.location.state);    
   }
