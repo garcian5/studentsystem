@@ -58,7 +58,7 @@ router.get('/getstudents', async (req, res) => {
   try {
     // select only lastname firstname and middlename (_id will always be there)
     const allStudents = await Student.find({})
-      .select({"lastname": 1, "firstname": 1, "middlename": 1})
+      .select({"lastname": 1, "firstname": 1, "middlename": 1, "student_id": 1})
       .sort({lastname: 1});
     
     res.json(allStudents);
