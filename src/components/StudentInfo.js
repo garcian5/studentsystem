@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 // import data
 import studentsdata from '../data/students';
 import grades from '../data/grades';
 
 // import get requests
-import { getSchedule, getGrades } from '../scripts/getRequests';
+//import { getSchedule, getGrades } from '../scripts/getRequests';
 
 // import images
 import E1 from '../imgs/1.jpg';
@@ -16,6 +17,12 @@ export default class StudentInfo extends Component {
   constructor() {
     super();
     this.state = {
+      student_info: {},
+      errorMsg: '',
+      accessAllowed: false,
+      firstMount: true
+    }
+    /* this.state = {
       student_info: [],
       schedule: [],
       instructors: [],
@@ -23,10 +30,20 @@ export default class StudentInfo extends Component {
 
       accessAllowed: false,
       firstMount: true
-    }
+    } */
   }
 
   componentDidMount() {
+    // if our state is not empty we allow access, if it is we deny access to page
+    if (this.props.history.location.state !== undefined) {      
+      axios.get('/student/getstudent/' + this.props.history.location.state)
+        .then(res => {
+          this.setState({student_info: res.data, accessAllowed: true, firstMount: false})
+        })
+        .catch(err => { this.setState({ errorMsg: err.response.data.msg }) });
+    }
+  }
+  /* componentDidMount() {
     // if our state is not empty we allow access, if it is we deny access to page
     if (this.props.history.location.state !== undefined) {      
       // we filter student data that equals to the id of the student so we can get their info and store it in our student_info state
@@ -45,7 +62,7 @@ export default class StudentInfo extends Component {
         firstMount: false
       })
     }
-  }
+  } */
 
   // go back to student directory page
   backBtnClicked = () => {
@@ -94,21 +111,21 @@ export default class StudentInfo extends Component {
         
     // if we are allowed access to page and the page is not on the first stage of mounting, display student info
     if (this.state.accessAllowed && !this.state.firstMount) {
-      const student_info = this.state.student_info[0];
-      const {schedule} = this.state; // object destructuring
-      const {grades} = this.state; // object destructuring
+      const {student_info, schedule} = this.state;
+      /* const {schedule} = this.state; // object destructuring
+      const {grades} = this.state; // object destructuring */
 
       // render schedule table
-      const renderSchedule = schedule.map (sched => (
-        <tr key={sched.id}>
+      const renderSchedule = student_info.sub_sched_lst.map (sched => (
+        <tr key={sched._id}>
           <td>{sched.time.from} - {sched.time.to}</td>
-          <td>{sched.subject_name}</td>
+          <td>{sched.subject_id.subject_name}</td>
           <td>{sched.day}</td>
-          <td>{sched.instructor_name}</td>
+          <td>{sched.subject_id.instructor_id.instructor_name}</td>
         </tr>
       ))
 
-      // render grades table
+      /* // render grades table
       const renderGrades = grades.map (grade => (
         <tr key={grade.id}>
           <td>{grade.subject_name}</td>
@@ -116,7 +133,7 @@ export default class StudentInfo extends Component {
           <td>{grade.midterm}</td>
           <td>{grade.final}</td>
         </tr>
-      ))
+      )) */
 
       return (
         <div>
@@ -154,7 +171,7 @@ export default class StudentInfo extends Component {
           </table>
 
           {
-            this.state.grades.length === 0 ?
+            /* this.state.grades.length === 0 ?
             <div>
               <p>No Grades to display yet.</p>
             </div>
@@ -172,11 +189,13 @@ export default class StudentInfo extends Component {
                   {renderGrades}
                 </tbody>
               </table>
-            </div>
+            </div> */
           }          
         </div>
       )
-    } else if (!this.state.accessAllowed || this.state.firstMount) {
+    } else if (this.state.firstMount) {
+      return (<div><p>Loading...</p></div>)
+    } else if (!this.state.accessAllowed) {
       // display error message if access not allowed or it's not first mount
       return (
         <div>

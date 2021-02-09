@@ -72,7 +72,7 @@ router.get('/getstudents', async (req, res) => {
 router.get('/getstudent/:id', async (req, res) => {
   try {
     const student = await Student.findById(req.params.id)
-      .populate({path: 'sub_sched_lst'})
+      .populate({path: 'sub_sched_lst', populate: {path: 'subject_id', populate: {path: 'instructor_id'}}})
     if (!student) return validation('studentNotExist', res);
     res.json(student)
   } catch (err) { res.status(500).json({error: err.message}); }
