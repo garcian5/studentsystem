@@ -20,7 +20,7 @@ router.post('/addstudent', async (req, res) => {
       contact, 
       course, 
       yearsection, 
-      subject_schedule_id
+      sub_sched_lst
     } = req.body;
 
     // if no entered lastname and first name don't process and return error message
@@ -37,7 +37,7 @@ router.post('/addstudent', async (req, res) => {
       contact, 
       course, 
       yearsection, 
-      subject_schedule_id
+      sub_sched_lst
     });
 
     const savedStudent = await newStudent.save();

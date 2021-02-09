@@ -13,7 +13,8 @@ const StudentSchema = new Schema({
   contact: {type: String},
   course: {type: String},
   yearsection: {type: String},  
-  subject_schedule_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Schedule'}
+  // subject_schedule_id: {type: mongoose.Schema.Types.ObjectId, ref: 'Schedule'}
+  sub_sched_lst: [{type: mongoose.Schema.Types.ObjectId, ref: 'Subject Schedule'}]
 });
 
 module.exports = studentModel = mongoose.model('Student', StudentSchema);
