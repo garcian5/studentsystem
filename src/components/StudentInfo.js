@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-// import get requests
-//import { getSchedule, getGrades } from '../scripts/getRequests';
-
 // import images
 import E1 from '../imgs/1.jpg';
 import L2 from '../imgs/2.jpg';
@@ -55,13 +52,6 @@ export default class StudentInfo extends Component {
     }
     this.props.history.push('/student-update', student_info);
   }
-
-  /* deleteBtnClicked = () => {
-
-    axios.delete('/student/delstudent/' + this.state.student_info._id)
-
-    this.props.history.push('/student-directory', this.props.history.location.state);    
-  } */
 
   deleteBtnClicked = () => this.setState({delModalShow: true})
   onModalHide = () => this.setState({delModalShow: false})
