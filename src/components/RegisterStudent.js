@@ -33,29 +33,80 @@ export default class RegisterStudent extends Component {
       registerError: false,
 
       firstMount: true,
-      students: []
+      students: [],
+      sent: false,
+      errorMsg: ''
     }
   }
 
   componentDidMount () {
-    axios.get('subsched/allsubscheds')
-      .then(res => {
-        this.setState({sub_scheds: res.data, firstMount: false})
-      })
+    axios.all([
+      axios.get('subsched/allsubscheds'),
+      axios.get('student/getstudents')
+    ])
+      .then(axios.spread((res1, res2) => {
+        this.setState({sub_scheds: res1.data, students: res2.data, firstMount: false})
+      }))
       .catch(err => { this.setState({ errorMsg: err.response.data.msg }) });
   }
 
   handleInputChange = (event) => {
     const {name, value} = event.target;    
-    
-    this.setState({
-      [name]: value
-    })
+    // check if the inputted student id is a duplicate
+    let duplicateStudentID = [];
+    if (name === 'id') {
+      duplicateStudentID = this.state.students.filter(student => value === student.student_id);      
+    } 
+    if (duplicateStudentID.length > 0) this.setState({[name]: value, duplicateId: true})
+    else if (name === 'id' && duplicateStudentID.length <= 0) this.setState({[name]: value, duplicateId: false})
+    else {
+      this.setState({
+        [name]: value
+      })
+    }
   }
 
   registerStudent = (event) => {
     event.preventDefault(); // prevents default refresh
     
+    // if user did not enter a schedule, do not let them register
+    if (this.state.scheds.length <= 0) {
+      this.setState({ noSched: true })
+      return
+    } 
+    
+    if (this.state.duplicateId) {
+      this.setState({ registerError: true });
+      return
+    }
+
+    const send_subschedlst = this.state.scheds.map(sched => sched._id);
+
+    // create a new object for student to post onto the student 'database' including the newly created student schedule
+    const addStudent = {
+      student_id: this.state.id,
+      lastname: this.state.lastname, 
+      firstname: this.state.firstname, 
+      middlename: this.state.middlename,
+      age: this.state.age,
+      dob: this.state.dob.toString(), // subtract actual month by 1 to get accurate date
+      address: this.state.address,
+      contact: this.state.contact_num,
+      course: this.state.course,
+      yearsection: this.state.year_sec,
+      // this section will be references to different tables that this has a relationship with
+      sub_sched_lst: send_subschedlst
+    }
+
+    axios.post('http://localhost:5000/student/addstudent', addStudent)
+      .then(res => {
+        console.log(res.data + " sent!");
+        this.setState({sent: true});
+        //this.props.history.push('/student-directory', this.props.history.location.state);
+      })
+      .catch(err => { 
+        console.log(err.response.data.msg)
+        this.setState({ errorMsg: err.response.data.msg }) });
   }
 
   addToSched = () => {
@@ -131,6 +182,7 @@ export default class RegisterStudent extends Component {
           {sched.subject_id.instructor_id !== undefined ? <td>{sched.subject_id.instructor_id.instructor_name}</td> : <td>Not Available</td>}
         </tr>
       ))
+      
       return (
         <div>
           <button onClick={this.backToDept}>Back</button>
@@ -272,6 +324,7 @@ export default class RegisterStudent extends Component {
             {this.state.duplicateId ? <p style={{color: 'red'}}>Please Enter a Different Id!</p> : null}
             {this.state.emptySched ? <p style={{color: 'red'}}>Please Select a Subject!</p> : null}
             {this.state.registerError ? <p style={{color: 'red'}}>Register Error!</p> : null}
+            {this.state.errorMsg !== '' ? <p style={{color: 'red'}}>{this.state.errorMsg}</p> : null}
 
             <button>Register Student</button>
           </form>
