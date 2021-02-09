@@ -55,8 +55,26 @@ router.post('/addstudent', async (req, res) => {
  * */
 router.get('/getstudents', async (req, res) => {
   try {
-    const allStudents = await Student.find().sort({lastname: 1});
+    // select only lastname firstname and middlename (_id will always be there)
+    const allStudents = await Student.find({})
+      .select({"lastname": 1, "firstname": 1, "middlename": 1})
+      .sort({lastname: 1});
+    
     res.json(allStudents);
+  } catch (err) { res.status(500).json({error: err.message}); }
+})
+
+/**
+ * @route   POST student/getstudent/:id
+ * @desc    gets a student by a given id (_id)
+ * @component StudentInfo.js get a student's info
+ * */
+router.get('/getstudent/:id', async (req, res) => {
+  try {
+    const student = await Student.findById(req.params.id)
+      .populate({path: 'sub_sched_lst'})
+    if (!student) return validation('studentNotExist', res);
+    res.json(student)
   } catch (err) { res.status(500).json({error: err.message}); }
 })
 
