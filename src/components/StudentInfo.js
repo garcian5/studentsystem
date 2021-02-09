@@ -18,51 +18,31 @@ export default class StudentInfo extends Component {
     super();
     this.state = {
       student_info: {},
+      grades: [],
       errorMsg: '',
       accessAllowed: false,
       firstMount: true
     }
-    /* this.state = {
-      student_info: [],
-      schedule: [],
-      instructors: [],
-      grades: [],
-
-      accessAllowed: false,
-      firstMount: true
-    } */
   }
 
   componentDidMount() {
     // if our state is not empty we allow access, if it is we deny access to page
-    if (this.props.history.location.state !== undefined) {      
-      axios.get('/student/getstudent/' + this.props.history.location.state)
-        .then(res => {
-          this.setState({student_info: res.data, accessAllowed: true, firstMount: false})
-        })
+    if (this.props.history.location.state !== undefined) {
+      axios.all([
+        axios.get('/student/getstudent/' + this.props.history.location.state),
+        axios.get('/grade/getgrades/' + this.props.history.location.state)
+      ])
+        .then(axios.spread((res1, res2) => {
+          this.setState({
+            student_info: res1.data, 
+            grades: res2.data,
+            accessAllowed: true, 
+            firstMount: false
+          })
+        }))
         .catch(err => { this.setState({ errorMsg: err.response.data.msg }) });
     }
   }
-  /* componentDidMount() {
-    // if our state is not empty we allow access, if it is we deny access to page
-    if (this.props.history.location.state !== undefined) {      
-      // we filter student data that equals to the id of the student so we can get their info and store it in our student_info state
-      const student = studentsdata.filter(student => {
-        return student.id === this.props.history.location.state;
-      })
-
-      const complete_schedule = getSchedule(student);
-      const grades_lst = getGrades(student);
-      
-      this.setState({
-        accessAllowed: true,
-        student_info: student,
-        schedule: complete_schedule,
-        grades: grades_lst,
-        firstMount: false
-      })
-    }
-  } */
 
   // go back to student directory page
   backBtnClicked = () => {
@@ -111,9 +91,7 @@ export default class StudentInfo extends Component {
         
     // if we are allowed access to page and the page is not on the first stage of mounting, display student info
     if (this.state.accessAllowed && !this.state.firstMount) {
-      const {student_info, schedule} = this.state;
-      /* const {schedule} = this.state; // object destructuring
-      const {grades} = this.state; // object destructuring */
+      const {student_info, grades} = this.state;
 
       // render schedule table
       const renderSchedule = student_info.sub_sched_lst.map (sched => (
@@ -125,15 +103,15 @@ export default class StudentInfo extends Component {
         </tr>
       ))
 
-      /* // render grades table
+      // render grades table
       const renderGrades = grades.map (grade => (
-        <tr key={grade.id}>
-          <td>{grade.subject_name}</td>
+        <tr key={grade._id}>
+          <td>{grade.subject_id.subject_name}</td>
           <td>{grade.prelim}</td>
           <td>{grade.midterm}</td>
           <td>{grade.final}</td>
         </tr>
-      )) */
+      ))
 
       return (
         <div>
@@ -171,7 +149,7 @@ export default class StudentInfo extends Component {
           </table>
 
           {
-            /* this.state.grades.length === 0 ?
+            this.state.grades.length === 0 ?
             <div>
               <p>No Grades to display yet.</p>
             </div>
@@ -189,7 +167,7 @@ export default class StudentInfo extends Component {
                   {renderGrades}
                 </tbody>
               </table>
-            </div> */
+            </div>
           }          
         </div>
       )

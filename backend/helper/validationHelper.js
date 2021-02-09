@@ -39,6 +39,16 @@ module.exports = validationHelper = (type, res) => {
       return res.status(400).json({
         msg: "This Student Does Not Exist in The Database."
       });
+    
+    case ("subjectNotExist"):
+      return res.status(400).json({
+        msg: "This subject does not exist for this student."
+      });
+    
+    case ("gradeExist"):
+      return res.status(400).json({
+        msg: "The grade for this subject and student already exists in the database."
+      });
 
     default:
       return console.log(type + "Error Occured.");

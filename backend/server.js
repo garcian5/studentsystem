@@ -36,6 +36,7 @@ app.use('/instructor', require('./routes/instructor'));
 app.use('/subject', require('./routes/subject'));
 app.use('/subsched', require('./routes/subjectscheule'));
 app.use('/schedule', require('./routes/schedule'));
+app.use('/grade', require('./routes/grade'));
 
 // start our server
 app.listen(port, () => {
