@@ -91,13 +91,13 @@ export default class StudentInfo extends Component {
           <button className='link-style-btn' onClick={this.deleteBtnClicked}>Delete</button> <br/>
           
           {
-            student_info.lastname.charAt(0).concat(student_info.id) === 'E1' ? <img src={E1} alt="empanso"/>
-            : student_info.lastname.charAt(0).concat(student_info.id) === 'L2' ? <img src={L2} alt="lore"/>
-            : student_info.lastname.charAt(0).concat(student_info.id) === 'P3' ? <img src={P3} alt="perez"/>
+            student_info.lastname.charAt(0).concat(student_info.student_id) === 'E1' ? <img src={E1} alt="empanso"/>
+            : student_info.lastname.charAt(0).concat(student_info.student_id) === 'L2' ? <img src={L2} alt="lore"/>
+            : student_info.lastname.charAt(0).concat(student_info.student_id) === 'P3' ? <img src={P3} alt="perez"/>
             : <h4>No Image</h4>
           }
 
-          <p>Student ID Number: {student_info.id}</p>
+          <p>Student ID Number: {student_info.student_id}</p>
           <p>Name: {student_info.firstname} {student_info.middlename} {student_info.lastname}</p>
           <p>Date of Birth: {student_info.dob.toString().substring(3, 15)}</p>
           <p>Age: {student_info.age}</p>

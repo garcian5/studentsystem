@@ -38,6 +38,13 @@ app.use('/subsched', require('./routes/subjectscheule'));
 app.use('/schedule', require('./routes/schedule'));
 app.use('/grade', require('./routes/grade'));
 
+// for production
+// create a custom variable inside heroku/this is how we tell our app is on heroku
+if (process.env.NODE_ENV === 'production') {
+  // add our react/client application into our server
+  app.use(express.static('../'))
+}
+
 // start our server
 app.listen(port, () => {
   console.log(`Server started at ${port}`);
